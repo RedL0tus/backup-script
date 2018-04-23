@@ -19,5 +19,8 @@ copy /etc/gitlab /opt/backup/gitlab/config;
 sudo -u postgres pg_dumpall | gzip /opt/backup/pg_dump.gz;
 copy /home/mastodon/live /opt/backup/mastodon;
 
+# Standard File
+copy /var/standardfile /opt/backup/standardfile;
+
 # Sync backups
 $SYNC_COMMAND;
