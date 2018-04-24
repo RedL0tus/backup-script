@@ -1,6 +1,7 @@
 #!/bin/bash
 
 SYNC_COMMAND="/usr/bin/rclone sync /opt/backup GDrive:/server-backup";
+BACKUP_PATH="/opt/backup";
 
 set -e;
 
@@ -13,17 +14,17 @@ function copy {
 
 # GitLab
 /opt/gitlab/bin/gitlab-rake gitlab:backup:create CRON=1;
-copy /etc/gitlab /opt/backup/gitlab/config;
+copy /etc/gitlab $BACKUP_PATH/gitlab/config;
 
 # Mastodon
 sudo -u postgres pg_dumpall | gzip /opt/backup/pg_dump.gz;
-copy /home/mastodon/live /opt/backup/mastodon;
+copy /home/mastodon/live $BACKUP_PATH/mastodon;
 
 # Standard File
-copy /var/standardfile /opt/backup/standardfile;
+copy /var/standardfile $BACKUP_PATH/standardfile;
 
 # Nginx
-copy /etc/nginx /opt/backup/nginx;
+copy /etc/nginx $BACKUP_PATH/nginx;
 
 # Sync backups
 $SYNC_COMMAND;
