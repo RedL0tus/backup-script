@@ -9,7 +9,7 @@ function copy {
 	if [ ! -d $2 ]; then
 		mkdir -p $2;
 	fi
-	cp -R $1 $2; 
+	cp -R --copy-links $1 $2; 
 }
 
 # GitLab
