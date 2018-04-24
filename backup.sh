@@ -17,7 +17,7 @@ function copy {
 copy /etc/gitlab $BACKUP_PATH/gitlab/config;
 
 # Mastodon
-sudo -u postgres pg_dumpall | gzip /opt/backup/pg_dump.gz;
+sudo -u postgres pg_dumpall > $BACKUP_PATH/pg_dump;
 copy /home/mastodon/live $BACKUP_PATH/mastodon;
 
 # Standard File
