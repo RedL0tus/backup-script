@@ -18,7 +18,7 @@ copy /etc/gitlab $BACKUP_PATH/gitlab/config;
 
 # Mastodon
 sudo -u postgres pg_dumpall > $BACKUP_PATH/pg_dump;
-copy /home/mastodon/live $BACKUP_PATH/mastodon;
+copy /home/mastodon/live/.env.production $BACKUP_PATH/mastodon/env.production;
 
 # Standard File
 copy /var/standardfile $BACKUP_PATH/standardfile;
