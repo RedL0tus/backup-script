@@ -22,5 +22,8 @@ copy /home/mastodon/live /opt/backup/mastodon;
 # Standard File
 copy /var/standardfile /opt/backup/standardfile;
 
+# Nginx
+copy /etc/nginx /opt/backup/nginx;
+
 # Sync backups
 $SYNC_COMMAND;
