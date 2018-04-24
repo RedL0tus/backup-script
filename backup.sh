@@ -7,7 +7,7 @@ set -e;
 
 function copy {
 	if [ ! -d $2 ]; then
-		mkdir -p $2;
+		rm -Rf $2;
 	fi
 	cp -R $1 $2; 
 }
