@@ -9,6 +9,7 @@ function COPY {
 	if [ ! -d $2 ]; then
 		rm -Rf $2;
 	fi
+	mkdir -p $2;
 	cp -R $1 $2; 
 }
 
