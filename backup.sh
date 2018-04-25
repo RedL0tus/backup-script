@@ -5,35 +5,55 @@ BACKUP_PATH="/opt/backup";
 
 set -e;
 
-function copy {
+function COPY {
 	if [ ! -d $2 ]; then
 		rm -Rf $2;
 	fi
 	cp -R $1 $2; 
 }
 
-# GitLab
-/opt/gitlab/bin/gitlab-rake gitlab:backup:create CRON=1;
-copy /etc/gitlab $BACKUP_PATH/gitlab/config;
+function BACKUP {
+	# GitLab
+	echo ">>> Backing up GitLab files..."
+	/opt/gitlab/bin/gitlab-rake gitlab:backup:create CRON=1;
+	COPY /etc/gitlab $BACKUP_PATH/gitlab/config;
 
-# Mastodon
-sudo -u postgres pg_dumpall > $BACKUP_PATH/pg_dump;
-copy /home/mastodon/live/.env.production $BACKUP_PATH/mastodon/env.production;
+	# Mastodon
+	echo ">>> Backing up Mastodon (and dumping PostgreSQL)...";
+	sudo -u postgres pg_dumpall > $BACKUP_PATH/pg_dump;
+	COPY /home/mastodon/live/.env.production $BACKUP_PATH/mastodon/env.production;
 
-# Standard File
-copy /var/standardfile $BACKUP_PATH/standardfile;
+	# Standard File
+	echo ">>> Backing up StandardFile...";
+	COPY /var/standardfile $BACKUP_PATH/standardfile;
 
-# Nginx
-copy /etc/nginx $BACKUP_PATH/nginx;
+	# Nginx
+	echo ">>> Backing up nginx config...";
+	COPY /etc/nginx $BACKUP_PATH/nginx;
 
-# pakreqBot
-copy /var/pakreqBot/data $BACKUP_PATH/pakreqBot;
+	# pakreqBot
+	echo ">>> Backing up pakreqBot database and config...";
+	COPY /var/pakreqBot/data $BACKUP_PATH/pakreqBot;
 
-# Docker containers
-for i in $(docker ps --format "{{.Names}}"); do
-	echo ">>> Backing up docker container $i";
-	docker export --output="$i.tar" $i;
-done
+	# Docker containers
+	if [ -d $BACKUP_PATH/docker ]; then
+		rm -Rf $BACKUP_PATH/docker;
+		mkdir -p $BACKUP_PATH/docker;
+	else
+		mkdir -p $BACKUP_PATH/docker;
+	fi
+	for i in $(docker ps --format "{{.Names}}"); do
+		echo ">>> Backing up docker container $i...";
+		docker export  $i | xz -9 -c - > $BACKUP_PATH/docker/$i.tar.xz;
+	done
+}
 
-# Sync backups
-$SYNC_COMMAND;
+function MAIN {
+	BACKUP;
+	# Sync backups
+	echo ">>> Syncing backups...";
+	$SYNC_COMMAND;
+	echo ">>> Done.";
+}
+
+MAIN;
