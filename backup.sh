@@ -1,6 +1,6 @@
 #!/bin/bash
 
-SYNC_COMMAND="/usr/bin/rclone sync /opt/backup GDrive:/server-backup";
+SYNC_COMMAND="/usr/bin/rclone sync /opt/backup GDrive:/server-backup --copy-links";
 BACKUP_PATH="/opt/backup";
 
 set -e;
