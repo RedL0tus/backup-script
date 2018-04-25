@@ -26,5 +26,8 @@ copy /var/standardfile $BACKUP_PATH/standardfile;
 # Nginx
 copy /etc/nginx $BACKUP_PATH/nginx;
 
+# pakreqBot
+copy /var/pakreqBot/data $BACKUP_PATH/pakreqBot;
+
 # Sync backups
 $SYNC_COMMAND;
