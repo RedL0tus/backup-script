@@ -29,5 +29,11 @@ copy /etc/nginx $BACKUP_PATH/nginx;
 # pakreqBot
 copy /var/pakreqBot/data $BACKUP_PATH/pakreqBot;
 
+# Docker containers
+for i in $(docker ps --format "{{.Names}}"); do
+	echo ">>> Backing up docker container $i";
+	docker export --output="$i.tar" $i;
+done
+
 # Sync backups
 $SYNC_COMMAND;
