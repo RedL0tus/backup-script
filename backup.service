@@ -1,0 +1,8 @@
+[Unit]
+Description=Backup and sync with remote service
+After=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/bin/bash -c /var/backup-script/backup.sh
+SuccessExitStatus=0
