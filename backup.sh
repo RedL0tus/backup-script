@@ -21,7 +21,7 @@ function BACKUP {
 
 	# Mastodon
 	echo ">>> Backing up Mastodon (and dumping PostgreSQL)...";
-	sudo -u postgres pg_dumpall > $BACKUP_PATH/pg_dump;
+	/bin/su - postgres -c "/usr/bin/pg_dumpall" > $BACKUP_PATH/pg_dump;
 	COPY /home/mastodon/live/.env.production $BACKUP_PATH/mastodon/env.production;
 
 	# Standard File
