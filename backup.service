@@ -4,5 +4,7 @@ After=network-online.target
 
 [Service]
 Type=oneshot
+User=root
+Envrionment="HOME=/root"
 ExecStart=/bin/bash -c /var/backup-script/backup.sh
 SuccessExitStatus=0
