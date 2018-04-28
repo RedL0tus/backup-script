@@ -1,6 +1,6 @@
 #!/bin/bash
 
-SYNC_COMMAND="/usr/bin/rclone sync /opt/backup GDrive:/server-backup --copy-links";
+RCLONE_REMOTE="GDrive:/server-backup";
 BACKUP_PATH="/opt/backup";
 
 set -e;
@@ -49,11 +49,15 @@ function BACKUP {
 	done
 }
 
+function SYNC {
+	/usr/bin/rclone sync $BACKUP_PATH $RCLONE_REMOTE --copy-links;
+}
+
 function MAIN {
 	BACKUP;
 	# Sync backups
 	echo ">>> Syncing backups...";
-	$SYNC_COMMAND;
+	SYNC;
 	echo ">>> Done.";
 }
 
