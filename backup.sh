@@ -50,6 +50,7 @@ function BACKUP {
 }
 
 function SYNC {
+	/usr/bin/rclone purge $RCLONE_REMOTE;
 	/usr/bin/rclone sync $BACKUP_PATH $RCLONE_REMOTE --copy-links;
 }
 
