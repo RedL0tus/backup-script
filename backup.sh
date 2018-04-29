@@ -39,10 +39,8 @@ function BACKUP {
 	# Docker containers
 	if [ -d $BACKUP_PATH/docker ]; then
 		rm -Rf $BACKUP_PATH/docker;
-		mkdir -p $BACKUP_PATH/docker;
-	else
-		mkdir -p $BACKUP_PATH/docker;
 	fi
+	mkdir -p $BACKUP_PATH/docker;
 	for i in $(docker ps --format "{{.Names}}"); do
 		echo ">>> Backing up docker container $i...";
 		docker export  $i | xz -9 -c - > $BACKUP_PATH/docker/$i.tar.xz;
