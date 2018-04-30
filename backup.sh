@@ -36,6 +36,10 @@ function BACKUP {
 	echo ">>> Backing up pakreqBot database and config...";
 	COPY /var/pakreqBot/data $BACKUP_PATH/pakreqBot;
 
+	# Puffer
+	echo ">>> Backing up puffer files...";
+	COPY /var/lib/pufferd/* $BACKUP_PATH/pufferd/;
+
 	# Docker containers
 	if [ -d $BACKUP_PATH/docker ]; then
 		rm -Rf $BACKUP_PATH/docker;
