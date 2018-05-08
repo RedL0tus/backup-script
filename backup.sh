@@ -17,7 +17,7 @@ function BACKUP {
 	# GitLab
 	echo ">>> Backing up GitLab files..."
 	/opt/gitlab/bin/gitlab-rake gitlab:backup:create CRON=1;
-	COPY /etc/gitlab $BACKUP_PATH/gitlab/config;
+	COPY /etc/gitlab/* $BACKUP_PATH/gitlab/config;
 
 	# Mastodon
 	echo ">>> Backing up Mastodon (and dumping PostgreSQL)...";
@@ -26,15 +26,15 @@ function BACKUP {
 
 	# Standard File
 	echo ">>> Backing up StandardFile...";
-	COPY /var/standardfile $BACKUP_PATH/standardfile;
+	COPY /var/standardfile/* $BACKUP_PATH/standardfile;
 
 	# Nginx
 	echo ">>> Backing up nginx config...";
-	COPY /etc/nginx $BACKUP_PATH/nginx;
+	COPY /etc/nginx/* $BACKUP_PATH/nginx;
 
 	# pakreqBot
 	echo ">>> Backing up pakreqBot database and config...";
-	COPY /var/pakreqBot/data $BACKUP_PATH/pakreqBot;
+	COPY /var/pakreqBot/data/* $BACKUP_PATH/pakreqBot;
 
 	# Puffer
 	echo ">>> Backing up puffer files...";
