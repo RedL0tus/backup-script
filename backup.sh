@@ -39,6 +39,10 @@ function BACKUP {
 	# Puffer
 	echo ">>> Backing up puffer files...";
 	COPY /var/lib/pufferd/* $BACKUP_PATH/pufferd/;
+	
+	# Minio
+	echo ">>> Backing up minio...";
+	COPY /srv/minio $BACKUP_PATH/minio;
 
 	# Docker containers
 	if [ -d $BACKUP_PATH/docker ]; then
